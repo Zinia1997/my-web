@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>電費計算器</title>
+  <style>
+    body {
+      font-family: "Noto Sans TC", sans-serif;
+      padding: 1.5em;
+      margin: 0;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #005baa;
+    }
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 1.5em;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      margin-bottom: 0.5em;
+      display: block;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 0.5em;
+      font-size: 1em;
+      margin-top: 0.2em;
+      margin-bottom: 1em;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 0.7em;
+      background-color: #0077cc;
+      color: white;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005faa;
+    }
+    .result {
+      margin-top: 1.5em;
+      font-weight: bold;
+      background-color: #e8f4ff;
+      padding: 1em;
+      border-radius: 8px;
+    }
+    @media (max-width: 600px) {
+      form {
+        padding: 1em;
+      }
+      h1 {
+        font-size: 1.5em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>電費計算器</h1>
+
+  <form onsubmit="event.preventDefault(); calculate();">
+    <label>上期度數 A:
+      <input type="number" id="A" required />
+    </label>
+    <label>本期度數 B:
+      <input type="number" id="B" required />
+    </label>
+    <label>高價時段度數 F:
+      <input type="number" id="F" required />
+    </label>
+
+    <button type="submit">計算</button>
+
+    <div class="result" id="result"></div>
+  </form>
+
+  <script>
+    function calculate() {
+      const A = parseFloat(document.getElementById('A').value);
+      const B = parseFloat(document.getElementById('B').value);
+      const F = parseFloat(document.getElementById('F').value);
+      const C = B - A;
+      const E = C - F;
+
+      const totalFee = 1.68 * E + 2.16 * F;
+      const fruitStandFee = 1.68 * (C - F) + 2.16 * F;
+
+      document.getElementById('result').innerHTML = `
+        本期用電度數 C：${C.toFixed(2)} 度<br>
+        總電費：$${totalFee.toFixed(2)}<br>
+        水果攤應付電費：$${fruitStandFee.toFixed(2)}
+      `;
+    }
+  </script>
+</body>
+</html>
+
